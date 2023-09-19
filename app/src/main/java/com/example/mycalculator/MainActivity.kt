@@ -45,7 +45,9 @@ class MainActivity : AppCompatActivity() {
                 isDecimal = false
             }
         }
-        val modifiedString = string.replace("÷","/")
+        var modifiedString = string.replace("÷","/")
+        val regex = Regex("sqrt(\\d+(\\.\\d+)?)")
+        modifiedString = modifiedString.replace(regex, "sqrt($1)")
         val expression: Expression = ExpressionBuilder(modifiedString).build()
         var result: Double = 0.0
         try {
@@ -53,9 +55,6 @@ class MainActivity : AppCompatActivity() {
         }
         catch (e: Exception) {
             Toast.makeText(this,"Error: ${e.message}",Toast.LENGTH_SHORT).show()
-        }
-        catch (error: Error){
-            println(error)
         }
         return result
     }
