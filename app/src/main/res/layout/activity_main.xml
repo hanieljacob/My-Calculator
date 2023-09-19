@@ -190,7 +190,7 @@
         <Button
             android:id="@+id/button_0"
             android:text="@string/button_0"
-            android:layout_width="150dp"
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/box_button"
             android:layout_margin="1dp"
@@ -207,20 +207,32 @@
             android:background="@drawable/box_button"
             android:layout_margin="1dp"
             app:backgroundTint="#8A8989"
-            app:layout_constraintEnd_toStartOf="@+id/button_0"
-            app:layout_constraintStart_toEndOf="@+id/button_equalsTo"
+            app:layout_constraintEnd_toStartOf="@+id/button_equalsTo"
+            app:layout_constraintStart_toEndOf="@+id/button_0"
             app:layout_constraintTop_toBottomOf="@id/button_9"/>
 
         <Button
             android:id="@+id/button_equalsTo"
             android:text="@string/button_equalTo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/box_button"
+            android:layout_margin="1dp"
+            app:backgroundTint="#8A8989"
+            app:layout_constraintEnd_toStartOf="@+id/button_clear"
+            app:layout_constraintStart_toEndOf="@+id/button_dot"
+            app:layout_constraintTop_toBottomOf="@id/button_9"/>
+
+        <Button
+            android:id="@+id/button_clear"
+            android:text="@string/button_clear"
             android:layout_width="150dp"
             android:layout_height="80dp"
             android:background="@drawable/box_button"
             android:layout_margin="1dp"
             app:backgroundTint="#8A8989"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_dot"
+            app:layout_constraintStart_toEndOf="@+id/button_equalsTo"
             app:layout_constraintTop_toBottomOf="@id/button_sqrt"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
