@@ -3,11 +3,12 @@ package com.example.mycalculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import kotlin.math.pow
 import java.util.ArrayDeque
 import com.example.mycalculator.databinding.ActivityMainBinding
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import java.lang.Error
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,26 +20,49 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun evaluate(string: String) {
-        val operators = setOf('+', '-', '÷', '*')
-        val stack = ArrayDeque<Char>()
-        var tempString = ""
+    // We used this library to evaluate a mathematical expression from a string https://www.objecthunter.net/exp4j/
+    private fun evaluate(string: String): Double {
+        var isDigitFlag = false
+        var isDecimal = false
+        for(ch in string){
+            if(ch.isDigit())
+                isDigitFlag = true
+            else if(ch == '.'){
+                if (!isDigitFlag) {
+                    Toast.makeText(this, "Decimal not attached to a number", Toast.LENGTH_SHORT).show()
+                    return 0.0
+                }
 
-        for (char in string) {
-            if (!operators.contains(char)) {
-                tempString += char
+                if (isDecimal) {
+                    Toast.makeText(this, "Number can't have multiple decimals", Toast.LENGTH_SHORT).show()
+                    return 0.0
+                }
+
+                isDecimal = true
             }
-
             else {
-                stack.push(char)
+                isDigitFlag = false
+                isDecimal = false
             }
         }
+        val modifiedString = string.replace("÷","/")
+        val expression: Expression = ExpressionBuilder(modifiedString).build()
+        var result: Double = 0.0
+        try {
+            result = expression.evaluate()
+        }
+        catch (e: Exception) {
+            Toast.makeText(this,"Error: ${e.message}",Toast.LENGTH_SHORT).show()
+        }
+        catch (error: Error){
+            println(error)
+        }
+        return result
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         addClickListener(binding.button0, getString(R.string.button_0))
         addClickListener(binding.button1, getString(R.string.button_1))
         addClickListener(binding.button2, getString(R.string.button_2))
@@ -58,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonEqualsTo.setOnClickListener() {
             val result = evaluate(binding.value.text.toString())
-            binding.value.setText(result)
+            binding.value.setText(result.toString())
         }
 
         binding.buttonClear.setOnClickListener() {
