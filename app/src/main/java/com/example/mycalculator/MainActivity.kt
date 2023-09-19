@@ -45,7 +45,9 @@ class MainActivity : AppCompatActivity() {
                 isDecimal = false
             }
         }
-        val modifiedString = string.replace("÷","/")
+        var modifiedString = string.replace("÷","/")
+        val regex = Regex("sqrt(\\d+(\\.\\d+)?)")
+        modifiedString = modifiedString.replace(regex, "sqrt($1)")
         val expression: Expression = ExpressionBuilder(modifiedString).build()
         var result: Double = 0.0
         try {
